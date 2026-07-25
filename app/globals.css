@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@theme {
+@theme inline {
   --color-paper: #F4EDE1;
   --color-paper-dim: #E9DFCC;
   --color-ink: #201C18;
@@ -10,9 +10,9 @@
   --color-brick: #8F3529;
   --color-rail-line: #B5A88F;
 
-  --font-heading: var(--font-fraunces);
-  --font-body: var(--font-instrument-sans);
-  --font-mono: var(--font-plex-mono);
+  --font-heading: var(--font-fraunces), Georgia, serif;
+  --font-body: var(--font-instrument-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), "Courier New", monospace;
 }
 
 body {
