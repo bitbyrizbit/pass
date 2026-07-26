@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { MenuItem } from "@/lib/supabase/types";
 import { Button } from "@/components/ui/Button";
+import { fireOrder } from "@/app/(customer)/menu/actions";
+import { TicketWriter } from "./TicketWriter";
 
 interface MenuBoardProps {
   items: MenuItem[];
@@ -10,6 +12,8 @@ interface MenuBoardProps {
 
 export function MenuBoard({ items }: MenuBoardProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [firing, setFiring] = useState(false);
+  const [fired, setFired] = useState(false);
 
   const categories = Array.from(new Set(items.map((i) => i.category)));
 
@@ -20,6 +24,25 @@ export function MenuBoard({ items }: MenuBoardProps) {
       return next;
     });
   }
+
+  async function handleFire() {
+    const chosen = items.filter((i) => selected.has(i.id));
+    if (chosen.length === 0) return;
+
+    setFiring(true);
+    const result = await fireOrder(
+      chosen.map((i) => ({ id: i.id, quantity: 1 })),
+      12
+    );
+
+    if (result.success) {
+      setFired(true);
+    }
+  }
+
+  const ticketLines = items
+    .filter((i) => selected.has(i.id))
+    .map((i) => `1x  ${i.name}`);
 
   return (
     <div className="flex flex-col gap-10">
@@ -55,7 +78,7 @@ export function MenuBoard({ items }: MenuBoardProps) {
 
                   <div className="flex items-center gap-3 shrink-0">
                     <span className="font-mono text-sm">
-                      &#8377;{item.price.toFixed(0)}
+                      ₹{item.price.toFixed(0)}
                     </span>
                     <Button
                       variant={selected.has(item.id) ? "bump" : "hold"}
@@ -71,6 +94,26 @@ export function MenuBoard({ items }: MenuBoardProps) {
           </div>
         </section>
       ))}
+
+      {selected.size > 0 && !firing && (
+        <button
+          onClick={handleFire}
+          className="fixed bottom-6 right-6 bg-rust text-paper px-6 py-3 font-mono text-sm shadow-[3px_4px_0_0_rgba(32,28,24,0.3)]"
+        >
+          fire {selected.size} {selected.size === 1 ? "item" : "items"}
+        </button>
+      )}
+
+      {firing && (
+        <div className="fixed inset-0 bg-ink/40 flex items-center justify-center z-50">
+          <TicketWriter
+            lines={["table 12", ...ticketLines, fired ? "-- fired --" : ""]}
+            onComplete={() => {
+              setTimeout(() => setFiring(false), 1400);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 }
