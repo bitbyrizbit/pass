@@ -35,6 +35,12 @@ export function MenuBoard({ items }: MenuBoardProps) {
       12
     );
 
+    if (result.error) {
+      setFiring(false);
+      alert(`Order failed: ${result.error}`);
+      return;
+    }
+
     if (result.success) {
       setFired(true);
     }

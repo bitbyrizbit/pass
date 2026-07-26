@@ -33,7 +33,7 @@ export default async function VerifyPage({
             inputMode="numeric"
             autoComplete="one-time-code"
             required
-            placeholder="six digits"
+            placeholder="your code"
           />
           <Button type="submit" variant="fire" className="w-full mt-2">
             Confirm and enter

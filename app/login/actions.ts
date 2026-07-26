@@ -20,17 +20,20 @@ export async function signInWithPassword(formData: FormData) {
 
 export async function signInWithOtp(formData: FormData) {
   const supabase = await createClient();
+  const email = formData.get("email") as string;
 
   const { error } = await supabase.auth.signInWithOtp({
-    email: formData.get("email") as string,
+    email,
     options: { shouldCreateUser: true },
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}`);
+    console.error("OTP SEND FAILED:", JSON.stringify(error, null, 2));
+    const message = error.message || error.name || "unknown auth error";
+    redirect(`/login?error=${encodeURIComponent(message)}`);
   }
 
-  redirect(`/login/verify?email=${encodeURIComponent(formData.get("email") as string)}`);
+  redirect(`/login/verify?email=${encodeURIComponent(email)}`);
 }
 
 export async function signInWithGoogle() {
