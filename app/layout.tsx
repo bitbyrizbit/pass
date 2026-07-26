@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Fraunces, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Serif, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-const fraunces = Fraunces({
+const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
-  variable: "--font-fraunces",
-  weight: ["500", "600"],
+  variable: "--font-instrument-serif",
+  weight: ["400"],
   style: ["normal", "italic"],
 });
 
@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${fraunces.variable} ${instrumentSans.variable} ${plexMono.variable} antialiased`}
+        className={`${instrumentSerif.variable} ${instrumentSans.variable} ${plexMono.variable} antialiased`}
       >
         {children}
       </body>

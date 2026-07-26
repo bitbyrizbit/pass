@@ -23,7 +23,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         className={`
           inline-flex items-center justify-center gap-2
           px-6 py-3 border-2
-          font-mono text-sm uppercase tracking-wide
+          font-mono text-sm
           transition-colors duration-150
           ${variantStyles[variant]}
           ${className}

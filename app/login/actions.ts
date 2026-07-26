@@ -51,3 +51,21 @@ export async function signInWithGoogle() {
     redirect(data.url);
   }
 }
+
+export async function verifyOtp(formData: FormData) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.verifyOtp({
+    email: formData.get("email") as string,
+    token: formData.get("token") as string,
+    type: "email",
+  });
+
+  if (error) {
+    redirect(
+      `/login/verify?email=${encodeURIComponent(formData.get("email") as string)}&error=${encodeURIComponent(error.message)}`
+    );
+  }
+
+  redirect("/");
+}

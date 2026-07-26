@@ -13,10 +13,8 @@ export default async function LoginPage({
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
       <Ticket status="held" rotate={-1} className="w-full max-w-sm">
-        <h1 className="font-heading text-2xl italic mb-1">Clock in</h1>
-        <p className="text-xs text-ink-soft mb-6 uppercase tracking-wide">
-          Pass — kitchen access
-        </p>
+        <h1 className="font-heading italic text-3xl mb-1">Who's clocking in?</h1>
+        <p className="text-xs text-ink-soft mb-6">Pass, kitchen access</p>
 
         {error && (
           <p className="text-xs text-brick mb-4 border border-brick px-3 py-2">
