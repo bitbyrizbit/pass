@@ -5,12 +5,15 @@ import { MenuItem } from "@/lib/supabase/types";
 import { Button } from "@/components/ui/Button";
 import { fireOrder } from "@/app/(customer)/menu/actions";
 import { TicketWriter } from "./TicketWriter";
+import { DemandSignal } from "@/lib/predict-demand";
+import { motion } from "framer-motion";
 
 interface MenuBoardProps {
   items: MenuItem[];
+  demandSignals: DemandSignal[];
 }
 
-export function MenuBoard({ items }: MenuBoardProps) {
+export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [firing, setFiring] = useState(false);
   const [fired, setFired] = useState(false);
@@ -76,11 +79,19 @@ export function MenuBoard({ items }: MenuBoardProps) {
                         {item.description}
                       </p>
                     )}
-                    {!item.is_available && (
-                      <p className="font-mono text-xs text-brick mt-1">
-                        86'd for tonight
-                      </p>
-                    )}
+                    
+                    <div className="flex items-center gap-3 mt-1.5">
+                      {!item.is_available ? (
+                        <p className="font-mono text-[10px] uppercase tracking-widest text-brick">
+                          86'd for tonight
+                        </p>
+                      ) : demandSignals.find(s => s.menuItemId === item.id)?.trend === "going-fast" ? (
+                        <p className="font-mono text-[10px] uppercase tracking-widest text-rust flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 bg-rust rounded-full animate-pulse"></span>
+                          Moving fast tonight
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
 
                   <div className="flex items-center gap-3 shrink-0">
@@ -103,12 +114,15 @@ export function MenuBoard({ items }: MenuBoardProps) {
       ))}
 
       {selected.size > 0 && !firing && (
-        <button
+        <motion.button
           onClick={handleFire}
-          className="fixed bottom-6 right-6 bg-rust text-paper px-6 py-3 font-mono text-sm shadow-[3px_4px_0_0_rgba(32,28,24,0.3)]"
+          animate={{ scale: [1, 1.02, 1] }}
+          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className="fixed bottom-6 right-6 bg-rust text-paper px-6 py-4 font-mono text-sm tracking-widest uppercase hover:bg-[#a64032] transition-colors z-40"
+          style={{ boxShadow: "4px 4px 0px 0px rgba(32,28,24,0.3)" }}
         >
           fire {selected.size} {selected.size === 1 ? "item" : "items"}
-        </button>
+        </motion.button>
       )}
 
       {firing && (
