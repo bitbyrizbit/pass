@@ -36,5 +36,5 @@ export interface OrderItem {
 }
 
 export interface OrderWithItems extends Order {
-  order_items: (OrderItem & { menu_items: { name: string } })[];
+  order_items: (OrderItem & { menu_items: { name: string; price: number } })[];
 }

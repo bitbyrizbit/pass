@@ -4,6 +4,11 @@ import { MenuBoard } from "@/components/menu/MenuBoard";
 import { OrderWithItems } from "@/lib/supabase/types";
 import { computeDemandSignals } from "@/lib/predict-demand";
 
+export const metadata = {
+  title: "Menu — Pass",
+  description: "Browse tonight's menu, fire your order to the kitchen.",
+};
+
 export default async function MenuPage() {
   const supabase = await createClient();
 
@@ -23,12 +28,23 @@ export default async function MenuPage() {
   const demandSignals = computeDemandSignals(recentOrders ?? []);
 
   return (
-    <main className="min-h-screen px-4 py-12 max-w-4xl mx-auto selection:bg-rust selection:text-paper">
-      <header className="mb-10 flex items-center justify-between">
+    <main className="min-h-screen px-6 md:px-10 selection:bg-rust selection:text-paper">
+      {/* Sticky header */}
+      <header className="sticky top-0 z-30 bg-paper/90 backdrop-blur-sm border-b border-rail-line/30 flex items-end justify-between py-5 -mx-6 md:-mx-10 px-6 md:px-10 mb-10">
         <div>
-          <p className="font-mono text-xs text-ink-soft mb-2  tracking-widest">pass, tonight's board</p>
-          <h1 className="font-heading italic text-4xl">What's on the pass</h1>
+          <p className="font-mono text-[10px] text-ink-soft/50 tracking-[0.3em] mb-0.5">
+            pass, tonight's board
+          </p>
+          <h1 className="font-heading italic text-3xl text-ink">
+            What's on the pass
+          </h1>
         </div>
+        <a
+          href="/"
+          className="font-mono text-xs text-ink-soft hover:text-rust transition-colors"
+        >
+          ← back
+        </a>
       </header>
 
       <MenuBoard items={items ?? []} demandSignals={demandSignals} />
