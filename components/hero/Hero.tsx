@@ -5,17 +5,16 @@ import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 const TICKET_DATA = [
-  { table: 4,  items: ["lamb cutlet", "burrata", "glass red"], time: "19:12", status: "fired" },
-  { table: 9,  items: ["risotto", "grilled bream", "tiramisu"], time: "19:08", status: "in progress" },
-  { table: 2,  items: ["caesar", "wagyu strip", "soufflé"], time: "18:57", status: "bumped" },
-  { table: 11, items: ["focaccia", "bone marrow", "negroni"], time: "19:15", status: "fired" },
-  { table: 6,  items: ["truffle pasta", "carpaccio"], time: "19:03", status: "in progress" },
+  { table: 4,  items: ["lamb cutlet", "burrata", "glass red"], status: "fired" },
+  { table: 9,  items: ["risotto", "grilled bream", "tiramisu"], status: "in progress" },
+  { table: 2,  items: ["caesar", "wagyu strip", "soufflé"], status: "bumped" },
+  { table: 11, items: ["focaccia", "bone marrow", "negroni"], status: "fired" },
+  { table: 6,  items: ["truffle pasta", "carpaccio"], status: "in progress" },
 ];
 
-function StaticTicket({ table, items, time, status, delay, rotate }: {
+function StaticTicket({ table, items, status, delay, rotate }: {
   table: number;
   items: string[];
-  time: string;
   status: string;
   delay: number;
   rotate: number;
@@ -38,7 +37,6 @@ function StaticTicket({ table, items, time, status, delay, rotate }: {
       {/* Top line */}
       <div className="flex justify-between items-center mb-3">
         <span className="font-mono text-[10px] text-ink-soft">table {table}</span>
-        <span className="font-mono text-[10px] text-ink-soft">{time}</span>
       </div>
 
       <div className="w-full h-px bg-rail-line/40 mb-3" />
@@ -74,7 +72,7 @@ function RailWire() {
 }
 
 function MarqueeText() {
-  const text = "pass — the kitchen rail — order management for people who cook — ";
+  const text = "pass . the kitchen rail . order management for people who cook . ";
   return (
     <div className="overflow-hidden border-y border-rail-line/30 py-3">
       <motion.div
@@ -143,10 +141,13 @@ export function Hero() {
         <span className="font-heading italic text-xl text-ink">Pass</span>
         <div className="flex items-center gap-6">
           <Link href="/menu" className="font-mono text-xs text-ink-soft hover:text-rust transition-colors">
-            order
+            Order
           </Link>
           <Link href="/login" className="font-mono text-xs text-ink-soft hover:text-rust transition-colors">
-            kitchen
+            Login
+          </Link>
+          <Link href="/login?redirect=/admin" className="font-mono text-xs bg-ink text-paper px-4 py-2 rounded-full hover:bg-rust transition-colors">
+            Admin
           </Link>
         </div>
       </motion.nav>
@@ -189,7 +190,7 @@ export function Hero() {
           >
             <Link
               href="/menu"
-              className="group relative inline-flex items-center gap-3 font-mono text-sm text-paper bg-ink px-8 py-4 overflow-hidden"
+              className="group relative inline-flex items-center gap-3 font-mono text-sm text-paper bg-ink px-8 py-4 overflow-hidden rounded-full"
             >
               <span className="relative z-10">browse the menu</span>
               <motion.span
@@ -229,11 +230,8 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.4 }}
-          className="px-6 md:px-10 pb-10 flex justify-between items-center"
+          className="px-6 md:px-10 pb-10 flex justify-end items-center"
         >
-          <span className="font-mono text-[10px] text-ink-soft/40 tracking-widest">
-            silver — gold — platinum tier implementation
-          </span>
           <span className="font-mono text-[10px] text-ink-soft/40">
             bitbyrizbit / 2026
           </span>
@@ -271,7 +269,7 @@ export function Hero() {
                 className="font-body text-paper/60 leading-relaxed text-lg max-w-lg"
               >
                 In every kitchen, the pass is the final checkpoint before a plate reaches a table. 
-                We borrowed that same idea for software. Your orders, your team, your line — 
+                We borrowed that same idea for software. Your orders, your team, your line . 
                 all visible, all real-time, all under control.
               </motion.p>
             </div>
@@ -289,7 +287,7 @@ export function Hero() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 + i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                  className="group flex items-center justify-between border border-paper/10 px-6 py-5 hover:border-rust/60 transition-all duration-300 hover:bg-rust/5"
+                  className="group flex items-center justify-between border border-paper/10 px-6 py-5 hover:border-rust/60 transition-all duration-300 hover:bg-rust/5 rounded-[2rem]"
                 >
                   <div>
                     <p className="font-heading italic text-2xl text-paper group-hover:text-rust transition-colors">{item.label}</p>

@@ -19,9 +19,10 @@ export default async function AdminLayout({
     .eq("id", user.id)
     .single();
 
-  if (!profile || profile.role === "customer") {
-    redirect("/?error=not+authorized+for+admin+access");
-  }
+  // For hackathon: allow any logged in user to see the admin board
+  // if (!profile || profile.role === "customer") {
+  //   redirect("/?error=not+authorized+for+admin+access");
+  // }
 
   return <>{children}</>;
 }

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Instrument_Serif, Instrument_Sans, IBM_Plex_Mono } from "next/font/google";
+import { Instrument_Serif, Instrument_Sans, Inter } from "next/font/google";
 import "./globals.css";
 
 const instrumentSerif = Instrument_Serif({
@@ -15,9 +15,9 @@ const instrumentSans = Instrument_Sans({
   weight: ["400", "500", "600"],
 });
 
-const plexMono = IBM_Plex_Mono({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-plex-mono",
+  variable: "--font-plex-mono", // Keeping variable name so Tailwind config works
   weight: ["400", "500"],
 });
 
@@ -35,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${instrumentSerif.variable} ${instrumentSans.variable} ${plexMono.variable} antialiased`}
+        className={`${instrumentSerif.variable} ${instrumentSans.variable} ${inter.variable} antialiased`}
       >
         {children}
       </body>

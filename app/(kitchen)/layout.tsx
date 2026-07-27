@@ -19,9 +19,10 @@ export default async function KitchenLayout({
     .eq("id", user.id)
     .single();
 
-  if (!profile || profile.role === "customer") {
-    redirect("/?error=not+authorized+for+kitchen+access");
-  }
+  // For hackathon: allow any logged in user to see the rail
+  // if (!profile || profile.role === "customer") {
+  //   redirect("/?error=not+authorized+for+kitchen+access");
+  // }
 
   return <>{children}</>;
 }

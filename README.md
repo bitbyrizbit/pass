@@ -128,6 +128,5 @@ This project is optimized for deployment on **Vercel**.
 ---
 
 <div align="center">
-  <p className="font-mono text-[10px]">silver — gold — platinum tier implementation</p>
   <p className="font-mono text-[10px]">bitbyrizbit / 2026</p>
 </div>

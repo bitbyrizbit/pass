@@ -56,6 +56,9 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
     if (result.success) {
       setFired(true);
       setSelected(new Map());
+      setTimeout(() => {
+        setFired(false);
+      }, 4000);
     }
   }
 
@@ -165,7 +168,7 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
                           animate={{ opacity: 1, scale: 1 }}
                           exit={{ opacity: 0, scale: 0.5 }}
                           onClick={() => decrement(item.id)}
-                          className="w-7 h-7 flex items-center justify-center border border-rail-line/60 text-ink-soft hover:border-rust hover:text-rust font-mono text-sm transition-colors"
+                          className="w-7 h-7 flex items-center justify-center rounded-full border border-rail-line/60 text-ink-soft hover:border-rust hover:text-rust font-mono text-sm transition-colors"
                         >
                           -
                         </motion.button>
@@ -189,7 +192,7 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
                     <motion.button
                       whileTap={{ scale: 0.92 }}
                       onClick={() => increment(item.id)}
-                      className={`w-7 h-7 flex items-center justify-center font-mono text-sm transition-all duration-200 ${
+                      className={`w-7 h-7 flex items-center justify-center rounded-full font-mono text-sm transition-all duration-200 ${
                         qty > 0
                           ? "bg-rust text-paper hover:bg-ink"
                           : "border border-rail-line/60 text-ink-soft hover:border-rust hover:text-rust"
@@ -219,7 +222,7 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
               onClick={handleFire}
               animate={{ scale: [1, 1.015, 1] }}
               transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-              className="flex items-center gap-4 bg-ink text-paper px-8 py-4 font-mono text-sm hover:bg-rust transition-colors duration-300"
+              className="flex items-center gap-4 bg-ink text-paper px-8 py-4 rounded-full font-mono text-sm hover:bg-rust transition-colors duration-300"
               style={{ boxShadow: "0 8px 30px rgba(32,28,24,0.3)" }}
             >
               <span>fire order</span>
@@ -241,6 +244,21 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
           />
         </div>
       )}
+
+      {/* Success Toast */}
+      <AnimatePresence>
+        {fired && !firing && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-chalkboard text-paper px-6 py-3 rounded-full font-mono text-sm flex items-center gap-3 shadow-lg"
+          >
+            <span className="w-2 h-2 rounded-full bg-paper animate-pulse" />
+            Order sent to kitchen
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

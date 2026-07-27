@@ -22,7 +22,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         transition={{ type: "spring", stiffness: 500, damping: 25 }}
         className={`
           inline-flex items-center justify-center gap-2
-          px-6 py-3 border-2
+          px-6 py-3 border-2 rounded-full
           font-mono text-sm
           transition-colors duration-150
           ${variantStyles[variant]}
