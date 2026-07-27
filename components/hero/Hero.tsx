@@ -136,17 +136,17 @@ export function Hero() {
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
-        className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-6 md:px-10 py-4 mix-blend-multiply"
+        className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center px-6 md:px-10 py-4 mix-blend-difference text-paper pointer-events-none"
       >
-        <span className="font-heading italic text-xl text-ink">Pass</span>
-        <div className="flex items-center gap-6">
-          <Link href="/menu" className="font-mono text-xs text-ink-soft hover:text-rust transition-colors">
+        <span className="font-heading italic text-xl">Pass</span>
+        <div className="flex items-center gap-6 pointer-events-auto">
+          <Link href="/menu" className="font-mono text-xs hover:text-rust transition-colors">
             Order
           </Link>
-          <Link href="/login" className="font-mono text-xs text-ink-soft hover:text-rust transition-colors">
+          <Link href="/login" className="font-mono text-xs hover:text-rust transition-colors">
             Login
           </Link>
-          <Link href="/login?redirect=/admin" className="font-mono text-xs bg-ink text-paper px-4 py-2 rounded-full hover:bg-rust transition-colors">
+          <Link href="/login?redirect=/admin" className="font-mono text-xs border border-paper/40 px-4 py-2 rounded-full hover:bg-paper hover:text-ink transition-colors">
             Admin
           </Link>
         </div>
