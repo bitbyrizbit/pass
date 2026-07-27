@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://via.placeholder.com/150x150/201C18/C24C1B?text=PASS" alt="Pass Logo" width="100" height="100" style="border-radius: 12px; margin-bottom: 20px;" />
+  <h1 align="center">Pass</h1>
 </div>
 
 # Pass

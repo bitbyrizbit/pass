@@ -170,7 +170,7 @@ export function Hero() {
             </motion.p>
           </div>
 
-          <div className="overflow-hidden">
+          <div className="overflow-hidden pb-6 -mb-6">
             <motion.h1
               initial={{ y: "100%" }}
               animate={{ y: 0 }}
