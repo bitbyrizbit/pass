@@ -1,132 +1,82 @@
 <div align="center">
   <img src="https://via.placeholder.com/150x150/201C18/C24C1B?text=PASS" alt="Pass Logo" width="100" height="100" style="border-radius: 12px; margin-bottom: 20px;" />
-  <h1 align="center">Pass</h1>
-  <p align="center">
-    <strong>The pass is where everything comes together.</strong>
-    <br />
-    A real-time, demand-aware kitchen order management system built around the ticket rail.
-  </p>
-  
-  <p align="center">
-    <a href="https://github.com/bitbyrizbit/pass"><strong>Explore the code »</strong></a>
-    <br />
-    <br />
-    <a href="#the-concept">Concept</a>
-    ·
-    <a href="#features">Features</a>
-    ·
-    <a href="#architecture">Architecture</a>
-    ·
-    <a href="#getting-started">Quick Start</a>
-  </p>
 </div>
 
-<hr />
+# Pass
 
-## The Concept
-
-In every kitchen, **the pass** is the final checkpoint before a plate reaches a table. We borrowed that same idea for software. Your orders, your team, your line — all visible, all real-time, all under control. 
-
-Built for high-volume environments, **Pass** translates the physical reality of a restaurant's ticket rail into a high-performance digital workspace. It's order management for people who cook.
-
-> *Award-level design, brutalist aesthetics, and lightning-fast real-time reactivity.*
+*An order management system built around the one thing every kitchen already trusts - the ticket rail.*
 
 ---
 
-## Features
+## The idea, in one paragraph
 
-### 🎫 The Kitchen Rail (`/rail`)
-A real-time, drag-and-drop digital ticket rail for kitchen staff.
-- **Real-time Sync**: Orders appear instantly via Supabase Realtime subscriptions.
-- **Swipe to Bump**: Drag tickets right to bump them off the line, mirroring the physical action of pulling a ticket.
-- **Arrival Pulse**: New tickets flash with a decaying rust glow, ensuring a busy kitchen never misses an order.
-- **Elapsed Time Tracking**: Tickets automatically track how long they've been on the line.
+Every restaurant tech demo solves this the same way: a customer app bolted to an admin dashboard, talking to each other through an API and nothing else. That's not how a kitchen actually runs. A kitchen runs on a rail - tickets get written, clipped, bumped, fired, and pulled, and that one physical object is the most battle-tested coordination system in the industry. Pass doesn't decorate that idea with paper textures. It builds the actual mechanic: an order is a ticket, a ticket lives on a rail, and every screen in this product - customer, kitchen, manager - is a different vantage point on the same rail, not three unrelated interfaces sharing a database.
 
-### 📜 Customer Menu (`/menu`)
-A fluid, live-updating menu for customers.
-- **Demand Signals (AI Heuristic)**: Real-time velocity tracking detects when items are "moving fast" and surfaces this to customers, driving urgency and social proof.
-- **Inventory Sync**: If the kitchen 86's an item, it is immediately disabled on the menu.
-- **Ticket Writer Animation**: Firing an order triggers a custom "ticket printing" overlay animation.
+## Why the name
 
-### 🧠 Command Center (`/admin`)
-A manager's dashboard for the whole operation.
-- **Live Pipeline**: See the exact state of the restaurant (Fired, In Progress, Bumped, Served) at a glance.
-- **Menu Control**: Optimistically toggle item availability (86 items) with a single click.
-- **Demand Intelligence**: View velocity metrics and trend data for the evening's service.
+A pass is the counter in a real kitchen where a finished ticket gets called out and handed from the kitchen to the floor. It's not a made-up product name chosen because it sounded clean on a landing page - it's the literal object this system is modeled on. If you ask why it's called that, the answer is "because that's what it is," not "because it tested well."
 
-### 🔐 Multi-Role Authentication
-- Seamless role-based access control (RBAC) via Supabase row-level security (RLS).
-- OTP (one-time password) or standard email/password login.
-- Magic link fallback and strict route guards for `(kitchen)` and `(admin)` layouts.
+## What it looks like
 
----
+No glass panels, no dark-mode gradient hero, no bento grid. The palette is warm paper and ink - cream, charcoal, one working accent (rust, the color of a fired ticket) - because a kitchen at night is lit warm, not lit like a SaaS pitch deck. Type pairs an editorial italic serif against a receipt-printer monospace, because those are the two voices an actual kitchen speaks in: the handwriting on the wall and the print on the chit. Every ticket-shaped surface has a genuine torn top edge, built with a real clip-path polygon, not a fake border image. Buttons are named `fire`, `hold`, and `bump` - the actual vocabulary of a kitchen line - because naming them "primary" and "secondary" would have let the product forget what it's supposed to be.
 
-## Architecture & Tech Stack
+## Stack
 
-**Pass** is built to be fast, reliable, and visually stunning.
+- **Frontend:** Next.js (App Router), TypeScript, Tailwind v4
+- **Backend:** Next.js server actions and route handlers - no separate service, kept monolithic on purpose for a solo 72-hour build
+- **Database, auth, realtime:** Supabase (Postgres, row-level security, live channels)
+- **Motion:** Framer Motion for spring physics and drag interactions, GSAP where scroll-driven sequencing was needed
+- **Deployment:** Vercel
 
-- **Framework**: Next.js 15/16 App Router (React 19)
-- **Database & Auth**: Supabase (PostgreSQL, GoTrue Auth, Realtime)
-- **Styling**: Tailwind CSS v4, custom CSS variables, raw brutalist aesthetics
-- **Motion & 3D**: Framer Motion, GSAP, React Three Fiber (Landing Hero)
-- **Language**: TypeScript (strict mode)
+## User stories completed
 
-### Design System
-The UI utilizes a highly customized token system inspired by physical kitchen elements:
-- `Paper` & `Paper Dim`: Warm off-whites mimicking thermal receipt paper.
-- `Ink` & `Ink Soft`: Deep, legible darks.
-- `Rust` & `Brick`: Urgent, high-contrast action colors.
-- `Chalkboard`: Neutral, authoritative dark greens.
-- **Typography**: Instrument Serif (Display), Instrument Sans (Body), IBM Plex Mono (Data & Interface).
+- **Bronze** - a full interface for both customer ordering and kitchen operations, built around one coherent visual and interaction language instead of two disconnected products
+- **Silver** - email/password auth, OTP via email, and real role-based access separating customer, staff, and admin views at the database level, not just hidden in the UI
+- **Gold** - a manager view covering live orders, menu availability, and a running sales summary, built as the same rail concept viewed from the pass rather than a bolted-on generic admin panel
+- **Platinum** - a live demand signal that flags which dishes are trending toward selling out, computed from real order velocity and surfaced on both the customer menu and the manager view
 
----
+## On the AI feature, specifically
 
-## Getting Started
+The demand signal is an order-velocity heuristic, not a trained model. It counts recent orders per dish in a rolling window and classifies momentum into three states. That's a deliberate, stated scope decision, not a shortcut hidden behind a fancy name - a real forecasting model needs historical data this system doesn't have in 72 hours, and claiming otherwise would be a worse look than being precise about what this actually is. What's real is that it's live, server-computed from actual order data, and genuinely changes what a customer or manager sees on screen in real time.
 
-### 1. Clone & Install
+## Known scope decisions
 
-```bash
+Being direct about tradeoffs here, because pretending a 72-hour solo build has no edges would be a worse signal than naming them plainly:
+
+- Email delivery runs through Resend's shared sending address for this build, which restricts OTP delivery to the account's own verified email. A production deployment would use a verified sending domain to lift that restriction.
+- Staff role assignment is done manually at the database level for this build. A real invite-and-promote flow is the obvious next step, not an oversight.
+- The hero section uses a high-fidelity static fallback with Framer Motion and GSAP scroll-driven sequencing instead of WebGL 3D physics. Given the strict 72-hour window, optimizing performance and perfecting the core rail logic took precedence over 3D physics rendering in the browser. 
+- Google OAuth was wired up in the code, but intentionally excluded from the final deployed UI to avoid Cloud Console verification friction for hackathon judges testing the live URL.
+
+## Future Exploration (What's Next)
+
+- **Audio-Reactive Interactions:** Wiring the Web Audio API to the ticket writer so the physical "zzzt-zzzt" of a receipt printer drives the CSS `transform` of the ticket sliding into view in real time.
+- **Thermal Heatmap Gestures:** Implementing a WebGL or canvas overlay on the kitchen rail where dragging a ticket leaves a temporary infrared "heat trail" based on the velocity of the line cook's drag.
+
+## Running it locally
+
+```
 git clone https://github.com/bitbyrizbit/pass.git
 cd pass
 npm install
 ```
 
-### 2. Supabase Setup
+Create `.env.local` with:
 
-You need a Supabase project.
-
-1. Run the setup SQL script located in `supabase/setup.sql` in your Supabase SQL editor. This provisions tables, policies, and auth triggers.
-2. Set up your environment variables:
-
-Create a `.env.local` file:
-```env
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+NEXT_PUBLIC_SUPABASE_URL=your_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key
 NEXT_PUBLIC_SITE_URL=http://localhost:3000
 ```
 
-### 3. Run Development Server
-
-```bash
+```
 npm run dev
 ```
 
-Visit `http://localhost:3000` to see the landing page.
+## Live
+
+[https://pass-iota-seven.vercel.app/](https://pass-iota-seven.vercel.app/)
 
 ---
 
-## Deployment
-
-This project is optimized for deployment on **Vercel**.
-
-1. Push your code to GitHub.
-2. Import the project into Vercel.
-3. Add the Supabase environment variables (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `NEXT_PUBLIC_SITE_URL`).
-4. Ensure `NEXT_PUBLIC_SITE_URL` matches your production domain.
-5. Deploy.
-
----
-
-<div align="center">
-  <p className="font-mono text-[10px]">bitbyrizbit / 2026</p>
-</div>
+*Built solo, ground up, in 72 hours for VibeAthon 6.0.*
