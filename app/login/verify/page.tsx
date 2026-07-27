@@ -6,9 +6,10 @@ import { verifyOtp } from "../actions";
 export default async function VerifyPage({
   searchParams,
 }: {
-  searchParams: Promise<{ email?: string; error?: string }>;
+  searchParams: Promise<{ email?: string; error?: string; redirect?: string }>;
 }) {
-  const { email, error } = await searchParams;
+  const { email, error, redirect: redirectParam } = await searchParams;
+  const redirectTo = redirectParam ?? "/";
 
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
@@ -26,6 +27,7 @@ export default async function VerifyPage({
 
         <form action={verifyOtp} className="flex flex-col gap-4">
           <input type="hidden" name="email" value={email} />
+          <input type="hidden" name="redirectTo" value={redirectTo} />
           <Input
             label="the code"
             type="text"

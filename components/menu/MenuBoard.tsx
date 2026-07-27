@@ -26,25 +26,26 @@ export function MenuBoard({ items }: MenuBoardProps) {
   }
 
   async function handleFire() {
-    const chosen = items.filter((i) => selected.has(i.id));
-    if (chosen.length === 0) return;
+  const chosen = items.filter((i) => selected.has(i.id));
+  if (chosen.length === 0) return;
 
-    setFiring(true);
-    const result = await fireOrder(
-      chosen.map((i) => ({ id: i.id, quantity: 1 })),
-      12
-    );
+  setFiring(true);
+  const result = await fireOrder(
+    chosen.map((i) => ({ id: i.id, quantity: 1 })),
+    12
+  );
 
-    if (result.error) {
-      setFiring(false);
-      alert(`Order failed: ${result.error}`);
-      return;
-    }
-
-    if (result.success) {
-      setFired(true);
-    }
+  if (result.error) {
+    setFiring(false);
+    alert(`Order failed: ${result.error}`);
+    return;
   }
+
+  if (result.success) {
+    setFired(true);
+    setSelected(new Set());
+  }
+}
 
   const ticketLines = items
     .filter((i) => selected.has(i.id))

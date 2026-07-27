@@ -19,18 +19,20 @@ export function Rail({ initialOrders }: RailProps) {
     const channel = supabase
       .channel("rail-orders")
       .on(
-        "postgres_changes",
-        { event: "INSERT", schema: "public", table: "orders" },
-        async (payload) => {
-          const { data } = await supabase
-            .from("orders")
-            .select("*, order_items(*, menu_items(name))")
-            .eq("id", payload.new.id)
-            .single<OrderWithItems>();
+  "postgres_changes",
+  { event: "INSERT", schema: "public", table: "orders" },
+  async (payload) => {
+    console.log("NEW ORDER EVENT RECEIVED:", payload);
+    const { data } = await supabase
+      .from("orders")
+      .select("*, order_items(*, menu_items(name))")
+      .eq("id", payload.new.id)
+      .single<OrderWithItems>();
 
-          if (data) setOrders((prev) => [...prev, data]);
-        }
-      )
+    console.log("FETCHED ORDER DATA:", data);
+    if (data) setOrders((prev) => [...prev, data]);
+  }
+)
       .on(
         "postgres_changes",
         { event: "UPDATE", schema: "public", table: "orders" },
@@ -40,7 +42,9 @@ export function Rail({ initialOrders }: RailProps) {
           }
         }
       )
-      .subscribe();
+      .subscribe((status) => {
+        console.log("REALTIME STATUS:", status);
+      });
 
     return () => {
       supabase.removeChannel(channel);

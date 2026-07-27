@@ -6,9 +6,10 @@ import { signInWithPassword, signInWithOtp, signInWithGoogle } from "./actions";
 export default async function LoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ error?: string }>;
+  searchParams: Promise<{ error?: string, redirect?: string }>;
 }) {
-  const { error } = await searchParams;
+  const { error, redirect: redirectParam } = await searchParams;
+  const redirectTo = redirectParam ?? "/";
 
   return (
     <main className="min-h-screen flex items-center justify-center px-4">
@@ -23,6 +24,7 @@ export default async function LoginPage({
         )}
 
         <form action={signInWithPassword} className="flex flex-col gap-4 mb-4">
+          <input type="hidden" name="redirectTo" value={redirectTo} />
           <Input label="Email" type="email" name="email" required placeholder="you@service.com" />
           <Input label="Password" type="password" name="password" required placeholder="********" />
           <Button type="submit" variant="fire" className="w-full mt-2">
@@ -31,6 +33,7 @@ export default async function LoginPage({
         </form>
 
         <form action={signInWithOtp} className="flex flex-col gap-3 mb-4">
+          <input type="hidden" name="redirectTo" value={redirectTo} />
           <Input label="Or get a one-time code" type="email" name="email" required placeholder="you@service.com" />
           <Button type="submit" variant="hold" className="w-full">
             Send code
@@ -38,6 +41,7 @@ export default async function LoginPage({
         </form>
 
         <form action={signInWithGoogle}>
+          <input type="hidden" name="redirectTo" value={redirectTo} />
           <Button type="submit" variant="bump" className="w-full">
             Continue with Google
           </Button>

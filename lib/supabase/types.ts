@@ -1,3 +1,12 @@
+export type UserRole = "customer" | "staff" | "admin";
+
+export interface Profile {
+  id: string;
+  role: UserRole;
+  display_name: string | null;
+  created_at: string;
+}
+
 export interface MenuItem {
   id: string;
   name: string;
