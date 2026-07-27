@@ -26,7 +26,7 @@ export default async function MenuPage() {
     <main className="min-h-screen px-4 py-12 max-w-4xl mx-auto selection:bg-rust selection:text-paper">
       <header className="mb-10 flex items-center justify-between">
         <div>
-          <p className="font-mono text-xs text-ink-soft mb-2 uppercase tracking-widest">pass, tonight's board</p>
+          <p className="font-mono text-xs text-ink-soft mb-2  tracking-widest">pass, tonight's board</p>
           <h1 className="font-heading italic text-4xl">What's on the pass</h1>
         </div>
       </header>

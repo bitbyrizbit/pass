@@ -26,12 +26,12 @@ export default async function AdminPage() {
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-2 h-2 rounded-full bg-rust animate-pulse" />
-              <p className="font-mono text-xs tracking-widest uppercase text-paper/60">Pass / Command Center</p>
+              <p className="font-mono text-xs tracking-widest  text-paper/60">Pass / Command Center</p>
             </div>
             <h1 className="font-heading italic text-5xl md:text-7xl text-paper tracking-tight">The Board</h1>
           </div>
           <div className="text-right">
-            <p className="font-mono text-xs text-paper/40 uppercase tracking-widest">
+            <p className="font-mono text-xs text-paper/40  tracking-widest">
               {new Date().toLocaleDateString("en-US", { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>
           </div>

@@ -1,7 +1,9 @@
+import { Hero3D } from "@/components/hero/Hero3D";
+
 export default function Home() {
   return (
-    <main className="min-h-screen flex items-center justify-center">
-      <p className="font-mono text-sm text-ink-soft">Pass, kitchen online</p>
+    <main className="min-h-screen bg-ink">
+      <Hero3D />
     </main>
   );
 }

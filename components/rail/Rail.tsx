@@ -93,8 +93,17 @@ function RailTicket({
   return (
     <motion.div
       layout
-      initial={{ opacity: 0, y: -30, rotate: rotate - 4 }}
-      animate={{ opacity: 1, y: 0, rotate }}
+      initial={{ opacity: 0, y: -30, rotate: rotate - 4, boxShadow: "0px 0px 0px 20px rgba(196,76,27,0.8)" }}
+      animate={{ 
+        opacity: 1, 
+        y: 0, 
+        rotate, 
+        boxShadow: "3px 4px 0px 0px rgba(196,76,27,0.3)",
+        transition: { 
+          duration: 0.4,
+          boxShadow: { duration: 0.8, ease: "easeOut" }
+        }
+      }}
       exit={{ opacity: 0, x: 200, rotate: rotate + 15, transition: { duration: 0.3 } }}
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
@@ -102,7 +111,7 @@ function RailTicket({
         if (info.offset.x > 120) onBump();
       }}
       style={{ x, opacity, transformOrigin: "top center" }}
-      className="ticket-edge bg-paper-dim border-2 border-rust px-5 pt-6 pb-4 font-mono text-sm w-64 cursor-grab active:cursor-grabbing shadow-[3px_4px_0_0_rgba(196,76,27,0.3)]"
+      className="ticket-edge bg-paper-dim border-2 border-rust px-5 pt-6 pb-4 font-mono text-sm w-64 cursor-grab active:cursor-grabbing"
     >
       <p className="text-rust mb-2">table {order.table_number}</p>
       {order.order_items.map((item) => (

@@ -82,11 +82,11 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
                     
                     <div className="flex items-center gap-3 mt-1.5">
                       {!item.is_available ? (
-                        <p className="font-mono text-[10px] uppercase tracking-widest text-brick">
+                        <p className="font-mono text-[10px]  tracking-widest text-brick">
                           86'd for tonight
                         </p>
                       ) : demandSignals.find(s => s.menuItemId === item.id)?.trend === "going-fast" ? (
-                        <p className="font-mono text-[10px] uppercase tracking-widest text-rust flex items-center gap-1.5">
+                        <p className="font-mono text-[10px]  tracking-widest text-rust flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 bg-rust rounded-full animate-pulse"></span>
                           Moving fast tonight
                         </p>
@@ -118,7 +118,7 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
           onClick={handleFire}
           animate={{ scale: [1, 1.02, 1] }}
           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="fixed bottom-6 right-6 bg-rust text-paper px-6 py-4 font-mono text-sm tracking-widest uppercase hover:bg-[#a64032] transition-colors z-40"
+          className="fixed bottom-6 right-6 bg-rust text-paper px-6 py-4 font-mono text-sm tracking-widest  hover:bg-[#a64032] transition-colors z-40"
           style={{ boxShadow: "4px 4px 0px 0px rgba(32,28,24,0.3)" }}
         >
           fire {selected.size} {selected.size === 1 ? "item" : "items"}

@@ -60,7 +60,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
             transition={{ delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
             className="border-b border-paper/10 pb-4"
           >
-            <p className="font-mono text-xs text-paper/50 mb-2 uppercase tracking-widest">{stat.label}</p>
+            <p className="font-mono text-xs text-paper/50 mb-2  tracking-widest">{stat.label}</p>
             <p className="font-heading italic text-5xl md:text-6xl text-paper">
               <AnimatedNumber value={stat.val} prefix={stat.prefix} />
             </p>
@@ -72,7 +72,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
       <div className="lg:col-span-8 flex flex-col gap-12">
         {/* Live Status Pipeline */}
         <section>
-          <h2 className="font-mono text-sm tracking-widest uppercase text-paper/50 mb-6">Pipeline</h2>
+          <h2 className="font-mono text-sm tracking-widest  text-paper/50 mb-6">Pipeline</h2>
           <div className="flex gap-2 h-16 w-full rounded-sm overflow-hidden p-1 border border-paper/10">
             {Object.entries(statusCounts).map(([status, count], i) => {
               const percentage = totalOrders === 0 ? 25 : (count / totalOrders) * 100;
@@ -88,7 +88,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
                   className={`${bg} h-full relative group flex items-end p-2 min-w-[40px]`}
                 >
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity absolute top-1 left-2">
-                    <span className="font-mono text-[10px] text-ink uppercase mix-blend-difference">{label}: {count}</span>
+                    <span className="font-mono text-[10px] text-ink  mix-blend-difference">{label}: {count}</span>
                   </div>
                 </motion.div>
               );
@@ -98,7 +98,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
 
         {/* Recent Order Log */}
         <section>
-          <h2 className="font-mono text-sm tracking-widest uppercase text-paper/50 mb-6">Recent History</h2>
+          <h2 className="font-mono text-sm tracking-widest  text-paper/50 mb-6">Recent History</h2>
           <div className="flex flex-col gap-2">
             {orders.slice(0, 8).map((order, i) => (
               <motion.div 
@@ -116,7 +116,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
                   </div>
                 </div>
                 <div className="flex items-center gap-4 text-right">
-                  <span className="font-mono text-xs uppercase tracking-widest text-paper/50">{order.status.replace("_", " ")}</span>
+                  <span className="font-mono text-xs  tracking-widest text-paper/50">{order.status.replace("_", " ")}</span>
                   <span className="font-mono text-sm text-paper">${order.total}</span>
                 </div>
               </motion.div>
@@ -131,7 +131,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
         {/* Intelligence (AI Demand) */}
         {trendingItems.length > 0 && (
           <section>
-            <h2 className="font-mono text-sm tracking-widest uppercase text-rust mb-6 flex items-center gap-2">
+            <h2 className="font-mono text-sm tracking-widest  text-rust mb-6 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-rust animate-pulse" />
               Going Fast
             </h2>
@@ -154,7 +154,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
 
         {/* Menu Controls */}
         <section>
-          <h2 className="font-mono text-sm tracking-widest uppercase text-paper/50 mb-6">The Menu</h2>
+          <h2 className="font-mono text-sm tracking-widest  text-paper/50 mb-6">The Menu</h2>
           <div className="flex flex-col gap-1">
             {menuItems.map((item, i) => (
               <motion.div 
