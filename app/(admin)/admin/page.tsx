@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { OrderWithItems, MenuItem } from "@/lib/supabase/types";
 import { AdminBoard } from "@/components/admin/AdminBoard";
+import Link from "next/link";
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -30,7 +31,13 @@ export default async function AdminPage() {
             </div>
             <h1 className="font-heading italic text-5xl md:text-7xl text-paper tracking-tight">The Board</h1>
           </div>
-          <div className="text-right">
+          <div className="flex flex-col items-end gap-3">
+            <Link
+              href="/"
+              className="font-mono text-xs text-paper/40 hover:text-paper transition-colors"
+            >
+              ← back
+            </Link>
             <p className="font-mono text-xs text-paper/40  tracking-widest">
               {new Date().toLocaleDateString("en-US", { weekday: 'long', month: 'long', day: 'numeric' })}
             </p>

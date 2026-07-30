@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { OrderWithItems } from "@/lib/supabase/types";
 import { Rail } from "@/components/rail/Rail";
+import Link from "next/link";
 
 export default async function KitchenRailPage() {
   const supabase = await createClient();
@@ -32,9 +33,17 @@ export default async function KitchenRailPage() {
             )}
           </div>
         </div>
-        <div className="hidden md:flex items-center gap-2 mb-2">
-          <div className="w-2 h-2 rounded-full bg-rust animate-pulse" />
-          <span className="font-mono text-[10px] text-paper/40">live</span>
+        <div className="flex items-center gap-6 mb-2">
+          <Link
+            href="/"
+            className="font-mono text-xs text-paper/40 hover:text-paper transition-colors"
+          >
+            ← back
+          </Link>
+          <div className="hidden md:flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-rust animate-pulse" />
+            <span className="font-mono text-[10px] text-paper/40">live</span>
+          </div>
         </div>
       </header>
 

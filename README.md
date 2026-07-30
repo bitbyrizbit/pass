@@ -46,7 +46,7 @@ Being direct about tradeoffs here, because pretending a 72-hour solo build has n
 - Email delivery runs through Resend's shared sending address for this build, which restricts OTP delivery to the account's own verified email. A production deployment would use a verified sending domain to lift that restriction.
 - Staff role assignment is done manually at the database level for this build. A real invite-and-promote flow is the obvious next step, not an oversight.
 - The hero section uses a high-fidelity static fallback with Framer Motion and GSAP scroll-driven sequencing instead of WebGL 3D physics. Given the strict 72-hour window, optimizing performance and perfecting the core rail logic took precedence over 3D physics rendering in the browser. 
-- Google OAuth was wired up in the code, but intentionally excluded from the final deployed UI to avoid Cloud Console verification friction for hackathon judges testing the live URL.
+- A fully dedicated sign-up flow has been integrated alongside Google OAuth, completely resolving initial friction and allowing immediate onboarding from the live UI.
 
 ## Future Exploration (What's Next)
 
