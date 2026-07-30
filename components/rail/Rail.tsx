@@ -12,6 +12,7 @@ interface RailProps {
 
 export function Rail({ initialOrders }: RailProps) {
   const [orders, setOrders] = useState<OrderWithItems[]>(initialOrders);
+  const [newOrderIds, setNewOrderIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const supabase = createClient();
@@ -28,7 +29,18 @@ export function Rail({ initialOrders }: RailProps) {
             .eq("id", payload.new.id)
             .single<OrderWithItems>();
 
-          if (data) setOrders((prev) => [...prev, data]);
+          if (data) {
+            setOrders((prev) => [...prev, data]);
+            setNewOrderIds((prev) => new Set([...prev, data.id]));
+            // Remove the glow after 3s
+            setTimeout(() => {
+              setNewOrderIds((prev) => {
+                const next = new Set(prev);
+                next.delete(data.id);
+                return next;
+              });
+            }, 3000);
+          }
         }
       )
       .on(
@@ -71,7 +83,7 @@ export function Rail({ initialOrders }: RailProps) {
               key={order.id}
               order={order}
               rotate={(i % 3) - 1}
-              isNew={i === orders.length - 1}
+              isNew={newOrderIds.has(order.id)}
               onBump={() => handleBump(order.id)}
             />
           ))}
