@@ -119,8 +119,16 @@ function RailTicket({
   const opacity = useTransform(x, [0, 150], [1, 0]);
   const borderOpacity = useTransform(x, [0, 120], [0.3, 0.9]);
 
-  const firedTime = new Date(order.fired_at);
-  const elapsed = Math.round((Date.now() - firedTime.getTime()) / 60000);
+  const [elapsed, setElapsed] = useState(() =>
+    Math.round((Date.now() - new Date(order.fired_at).getTime()) / 60000)
+  );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElapsed(Math.round((Date.now() - new Date(order.fired_at).getTime()) / 60000));
+    }, 30000); // refresh every 30s
+    return () => clearInterval(interval);
+  }, [order.fired_at]);
 
   return (
     <motion.div
