@@ -13,7 +13,31 @@ export async function signInWithPassword(formData: FormData) {
   });
 
   if (error) {
-    redirect(`/login?error=${encodeURIComponent(error.message)}&redirect=${encodeURIComponent(redirectTo)}`);
+    let message = error.message;
+    if (message === "Invalid login credentials") {
+      message = "Invalid login credentials or no account found. Create one instead.";
+    }
+    redirect(`/login?error=${encodeURIComponent(message)}&redirect=${encodeURIComponent(redirectTo)}`);
+  }
+
+  redirect(redirectTo);
+}
+
+export async function signUpWithPassword(formData: FormData) {
+  const supabase = await createClient();
+  const redirectTo = (formData.get("redirectTo") as string) || "/";
+
+  const { error } = await supabase.auth.signUp({
+    email: formData.get("email") as string,
+    password: formData.get("password") as string,
+  });
+
+  if (error) {
+    let message = error.message;
+    if (message.toLowerCase().includes("already registered") || message.toLowerCase().includes("already exists")) {
+      message = "Already have an account? Sign in instead.";
+    }
+    redirect(`/login?error=${encodeURIComponent(message)}&redirect=${encodeURIComponent(redirectTo)}`);
   }
 
   redirect(redirectTo);

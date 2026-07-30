@@ -90,7 +90,7 @@ function MarqueeText() {
   );
 }
 
-export function Hero() {
+export function Hero({ userEmail }: { userEmail?: string }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef, offset: ["start start", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
@@ -143,9 +143,19 @@ export function Hero() {
           <Link href="/menu" className="font-mono text-xs hover:text-rust transition-colors">
             Order
           </Link>
-          <Link href="/login" className="font-mono text-xs hover:text-rust transition-colors">
-            Login
-          </Link>
+          
+          {userEmail ? (
+            <div className="flex items-center gap-2 group cursor-pointer" title={userEmail}>
+              <div className="w-8 h-8 rounded-full bg-paper/10 border border-paper/20 flex items-center justify-center text-paper font-heading italic group-hover:bg-rust group-hover:border-rust group-hover:text-paper transition-all duration-300">
+                {userEmail.charAt(0).toUpperCase()}
+              </div>
+            </div>
+          ) : (
+            <Link href="/login" className="font-mono text-xs hover:text-rust transition-colors">
+              Login
+            </Link>
+          )}
+
           <Link href="/login?redirect=/admin" className="font-mono text-xs border border-paper/40 px-4 py-2 rounded-full hover:bg-paper hover:text-ink transition-colors">
             Admin
           </Link>

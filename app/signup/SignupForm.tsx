@@ -2,9 +2,9 @@
 
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/Input";
-import { signInWithPassword, signInWithOtp, signInWithGoogle } from "./actions";
+import { signUpWithPassword, signInWithGoogle } from "@/app/login/actions";
 
-export function LoginForm({ redirectTo }: { redirectTo: string }) {
+export function SignupForm({ redirectTo }: { redirectTo: string }) {
   return (
     <div className="min-h-screen bg-ink noise-overlay flex items-center justify-center p-6">
       
@@ -30,17 +30,17 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
           
           <div className="relative z-10">
             <h2 className="font-heading italic text-4xl md:text-5xl text-paper mb-4">
-              Pass
+              Join Pass
             </h2>
             <p className="font-body text-paper/80 leading-relaxed max-w-[200px]">
-              Access the kitchen rail and command center.
+              Set up your account for the kitchen rail and command center.
             </p>
           </div>
           
           <div className="relative z-10 mt-12 lg:mt-0 flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-paper animate-pulse" />
             <span className="font-mono text-[10px] text-paper/80">
-              staff access portal
+              new staff registration
             </span>
           </div>
         </div>
@@ -49,11 +49,11 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
         <div className="flex-1 p-10 md:p-16 flex flex-col justify-center">
           <div className="max-w-xs mx-auto w-full">
             <h1 className="font-heading italic text-3xl text-paper mb-8 text-center">
-              Sign In
+              Create Account
             </h1>
 
             {/* Password form */}
-            <form action={signInWithPassword} className="flex flex-col gap-4 mb-8">
+            <form action={signUpWithPassword} className="flex flex-col gap-4 mb-8">
               <input type="hidden" name="redirectTo" value={redirectTo} />
               <Input
                 label="Email"
@@ -77,41 +77,15 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
                 whileTap={{ scale: 0.96 }}
                 className="w-full mt-4 bg-paper text-ink rounded-full font-mono text-sm py-3.5 hover:bg-rust hover:text-paper transition-colors duration-300 shadow-md"
               >
-                Fire order, sign in
+                Clock in, first time
               </motion.button>
               
               <a
-                href={`/signup?redirect=${encodeURIComponent(redirectTo)}`}
+                href={`/login?redirect=${encodeURIComponent(redirectTo)}`}
                 className="text-center block font-mono text-[10px] text-paper/60 hover:text-paper mt-2 transition-colors"
               >
-                Don't have an account? Sign up
+                Already have an account? Sign in
               </a>
-            </form>
-
-            <div className="flex items-center gap-4 mb-8">
-              <div className="flex-1 h-px bg-paper/10" />
-              <span className="font-mono text-[10px] text-paper/30">or</span>
-              <div className="flex-1 h-px bg-paper/10" />
-            </div>
-
-            {/* OTP form */}
-            <form action={signInWithOtp} className="flex flex-col gap-3">
-              <input type="hidden" name="redirectTo" value={redirectTo} />
-              <Input
-                label="Get a one-time code"
-                type="email"
-                name="email"
-                required
-                placeholder="you@service.com"
-                dark
-              />
-              <motion.button
-                type="submit"
-                whileTap={{ scale: 0.96 }}
-                className="w-full mt-2 border border-paper/20 rounded-full text-paper/70 font-mono text-sm py-3.5 hover:border-rust/60 hover:text-rust transition-all duration-300"
-              >
-                Send Code
-              </motion.button>
             </form>
 
             <div className="flex items-center gap-4 my-8">
@@ -135,7 +109,7 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
                   <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
                   <path d="M1 1h22v22H1z" fill="none"/>
                 </svg>
-                Continue with Google
+                Sign up with Google
               </motion.button>
             </form>
           </div>
