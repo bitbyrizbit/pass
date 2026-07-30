@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { signOut } from "@/app/login/actions";
 
 const TICKET_DATA = [
   { table: 4,  items: ["lamb cutlet", "burrata", "glass red"], status: "fired" },
@@ -145,11 +146,7 @@ export function Hero({ userEmail }: { userEmail?: string }) {
           </Link>
           
           {userEmail ? (
-            <div className="flex items-center gap-2 group cursor-pointer" title={userEmail}>
-              <div className="w-8 h-8 rounded-full bg-paper/10 border border-paper/20 flex items-center justify-center text-paper font-heading italic group-hover:bg-rust group-hover:border-rust group-hover:text-paper transition-all duration-300">
-                {userEmail.charAt(0).toUpperCase()}
-              </div>
-            </div>
+            <ProfileMenu email={userEmail} />
           ) : (
             <Link href="/login" className="font-mono text-xs hover:text-rust transition-colors">
               Login
@@ -315,5 +312,63 @@ export function Hero({ userEmail }: { userEmail?: string }) {
         </div>
       </section>
     </>
+  );
+}
+
+function ProfileMenu({ email }: { email: string }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="relative">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-8 h-8 rounded-full bg-paper/10 border border-paper/20 flex items-center justify-center text-paper font-heading italic hover:bg-rust hover:border-rust transition-all duration-300"
+        title={email}
+      >
+        {email.charAt(0).toUpperCase()}
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <>
+            <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
+            <motion.div
+              initial={{ opacity: 0, y: -8, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -8, scale: 0.95 }}
+              transition={{ duration: 0.15 }}
+              className="absolute right-0 top-10 z-50 min-w-[180px] bg-ink border border-paper/10 rounded-2xl overflow-hidden shadow-2xl"
+            >
+              <div className="px-4 py-3 border-b border-paper/10">
+                <p className="font-mono text-[10px] text-paper/40">signed in as</p>
+                <p className="font-mono text-xs text-paper truncate max-w-[160px]">{email}</p>
+              </div>
+              <Link
+                href="/login?redirect=/rail"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 font-mono text-xs text-paper/60 hover:text-paper hover:bg-paper/5 transition-colors"
+              >
+                → kitchen rail
+              </Link>
+              <Link
+                href="/login?redirect=/admin"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 px-4 py-3 font-mono text-xs text-paper/60 hover:text-paper hover:bg-paper/5 transition-colors border-b border-paper/10"
+              >
+                → the board
+              </Link>
+              <form action={signOut}>
+                <button
+                  type="submit"
+                  className="w-full text-left px-4 py-3 font-mono text-xs text-rust/70 hover:text-rust hover:bg-rust/5 transition-colors"
+                >
+                  sign out
+                </button>
+              </form>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
