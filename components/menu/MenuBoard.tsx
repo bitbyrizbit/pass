@@ -16,6 +16,8 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
   const [selected, setSelected] = useState<Map<string, number>>(new Map());
   const [firing, setFiring] = useState(false);
   const [fired, setFired] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
+  const [tableNumber, setTableNumber] = useState<number>(1);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
   const categories = Array.from(new Set(items.map((i) => i.category)));
@@ -45,11 +47,13 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
     if (chosen.length === 0) return;
 
     setFiring(true);
-    const result = await fireOrder(chosen, 12);
+    setOrderError(null);
+    const result = await fireOrder(chosen, tableNumber);
 
     if (result.error) {
       setFiring(false);
-      alert(`Order failed: ${result.error}`);
+      setOrderError(result.error);
+      setTimeout(() => setOrderError(null), 4000);
       return;
     }
 
@@ -75,6 +79,26 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
 
   return (
     <div className="pb-32">
+      {/* Table selector */}
+      <div className="flex items-center gap-4 mb-8 pb-6 border-b border-rail-line/30">
+        <span className="font-mono text-xs text-ink-soft/60">table</span>
+        <div className="flex gap-1.5 flex-wrap">
+          {[1,2,3,4,5,6,7,8,9,10,11,12].map((t) => (
+            <button
+              key={t}
+              onClick={() => setTableNumber(t)}
+              className={`w-8 h-8 font-mono text-xs rounded-full transition-all duration-200 ${
+                tableNumber === t
+                  ? "bg-ink text-paper"
+                  : "border border-rail-line/40 text-ink-soft hover:border-ink/40 hover:text-ink"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
       {/* Category tabs */}
       <div className="flex gap-2 flex-wrap mb-10 -mx-1">
         <button
@@ -237,13 +261,28 @@ export function MenuBoard({ items, demandSignals }: MenuBoardProps) {
       {firing && (
         <div className="fixed inset-0 bg-ink/60 backdrop-blur-sm flex items-center justify-center z-50">
           <TicketWriter
-            lines={["table 12", ...ticketLines, fired ? "-- fired --" : ""]}
+            lines={[`table ${tableNumber}`, ...ticketLines, fired ? "-- fired --" : ""]}
             onComplete={() => {
               setTimeout(() => setFiring(false), 1400);
             }}
           />
         </div>
       )}
+
+      {/* Error Toast */}
+      <AnimatePresence>
+        {orderError && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 bg-brick text-paper px-6 py-3 rounded-full font-mono text-sm flex items-center gap-3 shadow-lg"
+          >
+            <span className="w-2 h-2 rounded-full bg-paper" />
+            {orderError}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Success Toast */}
       <AnimatePresence>
