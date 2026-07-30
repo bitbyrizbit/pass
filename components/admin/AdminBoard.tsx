@@ -50,7 +50,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
       <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         {[
           { label: "Total Orders", val: totalOrders },
-          { label: "Revenue", val: totalRevenue, prefix: "$" },
+          { label: "Revenue", val: totalRevenue, prefix: "₹" },
           { label: "On The Line", val: currentlyFiring },
         ].map((stat, i) => (
           <motion.div
@@ -117,7 +117,7 @@ export function AdminBoard({ orders, menuItems }: { orders: OrderWithItems[], me
                 </div>
                 <div className="flex items-center gap-4 text-right">
                   <span className="font-mono text-xs  tracking-widest text-paper/50">{order.status.replace("_", " ")}</span>
-                  <span className="font-mono text-sm text-paper">${order.total}</span>
+                  <span className="font-mono text-sm text-paper">₹{order.total}</span>
                 </div>
               </motion.div>
             ))}
