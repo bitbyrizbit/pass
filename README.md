@@ -46,8 +46,13 @@ Being direct about tradeoffs here, because pretending a 72-hour solo build has n
 - Email delivery runs through Resend's shared sending address for this build, which restricts OTP delivery to the account's own verified email. A production deployment would use a verified sending domain to lift that restriction.
 - Staff role assignment is done manually at the database level for this build. A real invite-and-promote flow is the obvious next step, not an oversight.
 - The hero section uses a high-fidelity static fallback with Framer Motion and GSAP scroll-driven sequencing instead of WebGL 3D physics. Given the strict 72-hour window, optimizing performance and perfecting the core rail logic took precedence over 3D physics rendering in the browser. 
-- A fully dedicated sign-up flow has been integrated alongside Google OAuth, completely resolving initial friction and allowing immediate onboarding from the live UI.
+## Phase 2 Evaluation Polish
 
+To ensure the product meets elite standards for the final evaluation, several critical refinements were made:
+- **Authentication**: Integrated a fully dedicated password sign-up flow alongside a fully functional **Google OAuth** integration, eliminating initial onboarding friction.
+- **Navigation Architecture**: Implemented universal back-links across all specialized views (Command Center, Kitchen Rail, Customer Menu) to ensure users can effortlessly return to the main hub.
+- **Kitchen Rail Improvements**: Added live, auto-updating elapsed times (e.g., "2m ago") on tickets, real-time active ticket counts on the board header, and corrected the glow logic to accurately highlight only newly fired real-time tickets.
+- **Menu & UI Enhancements**: Replaced hardcoded table numbers with a proper table selector (1–12), introduced clean inline error toasts instead of raw browser alerts, and ensured universal currency formatting (₹) across the admin board for absolute consistency.
 ## Future Exploration (What's Next)
 
 - **Audio-Reactive Interactions:** Wiring the Web Audio API to the ticket writer so the physical "zzzt-zzzt" of a receipt printer drives the CSS `transform` of the ticket sliding into view in real time.
